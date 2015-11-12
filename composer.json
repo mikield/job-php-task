@@ -1,0 +1,10 @@
+{
+    "require": {
+        "paquettg/php-html-parser": "^1.6",
+        "sergeytsalkov/meekrodb": "^2.3",
+        "robmorgan/phinx": "^0.4.6"
+    },
+    "require-dev": {
+    	"mikield/php-ref": "^1.0"
+    }
+}
