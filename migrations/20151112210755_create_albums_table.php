@@ -30,6 +30,7 @@ class CreateAlbumsTable extends AbstractMigration
         $table->addColumn('title', 'string')
                 ->addColumn('link', 'string')
                 ->addColumn('month', 'integer')
+                ->addColumn('count', 'integer')
                 ->addIndex(array('title'), array('unique' => true))
                 ->create();
     }

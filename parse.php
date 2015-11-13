@@ -30,7 +30,7 @@ if (count($albums) >= 0) {
     
     //Adding DB instance
     $db = include 'DB.php';
-    for ($i = 0; $i <= 20; $i++) {
+    for ($i = 0; $i <= $albumsGetCount; $i++) {
         
         //$album = $albums[$i] ?? ''; #<--- Will work only in PHP7
         $album = (isset($albums[$i])) ? $albums[$i] : null; #This is for old version of PHP (PHP 5.6 f.e.)
@@ -40,16 +40,19 @@ if (count($albums) >= 0) {
             $title = $album->find('a')->text; 
             $link = str_replace('/photos.aspx', '', $url).str_replace('..', '', $album->find('a')->getAttribute('href'));
             $date = detectDate($album->find('a')->getAttribute('href'));
+            $imagesCount = detectCount($album->find('a')->text);
 
 			try{ 
 				$db->insert('albums',[
 				'title' => $title, 
 				'link' => $link,
 				'month' => $date,
+				'count' => $imagesCount,
 				]);
 			}catch(Exception $e){
 				#Log the error
 				#The title is unique, so we will have severals errors with unique values when inserting data.
+				r($e->getMessage());
 			}
         }
     }
@@ -62,8 +65,11 @@ function detectDate($url){
 	$dateString = str_replace('/viewer.aspx','',$dateString);
 	$dateStringArray = explode(' ', $dateString);
 	foreach ($dateStringArray as $month) {
-		if($date = DateTime::createFromFormat('M', $month)){
-			return $date->format('m');
-		}
+		return ($date = DateTime::createFromFormat('M', $month)) ? $date->format('m') : 0;
 	}
+}
+
+function detectCount($title){
+	preg_match("/\((.+) (pictures|images|images|pics)(.+|)\)/", $title, $titleArray);
+	return (isset($titleArray[1])) ? $titleArray[1] : 0;
 }
