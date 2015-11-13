@@ -27,6 +27,10 @@ class CreateAlbumsTable extends AbstractMigration
      */
     public function change() {
         $table = $this->table('albums');
-        $table->addColumn('title', 'string')->addColumn('link', 'string')->addIndex(array('title'), array('unique' => true))->create();
+        $table->addColumn('title', 'string')
+                ->addColumn('link', 'string')
+                ->addColumn('month', 'integer')
+                ->addIndex(array('title'), array('unique' => true))
+                ->create();
     }
 }

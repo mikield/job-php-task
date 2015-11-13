@@ -39,11 +39,13 @@ if (count($albums) >= 0) {
             //Write album info into database.
             $title = $album->find('a')->text; 
             $link = str_replace('/photos.aspx', '', $url).str_replace('..', '', $album->find('a')->getAttribute('href'));
+            $date = detectDate($album->find('a')->getAttribute('href'));
 
 			try{ 
 				$db->insert('albums',[
 				'title' => $title, 
-				'link' => $link
+				'link' => $link,
+				'month' => $date,
 				]);
 			}catch(Exception $e){
 				#Log the error
@@ -51,4 +53,17 @@ if (count($albums) >= 0) {
 			}
         }
     }
+}
+
+
+function detectDate($url){
+	$url = urldecode($url);
+	$dateString = str_replace('../looping_images/','',$url);
+	$dateString = str_replace('/viewer.aspx','',$dateString);
+	$dateStringArray = explode(' ', $dateString);
+	foreach ($dateStringArray as $month) {
+		if($date = DateTime::createFromFormat('M', $month)){
+			return $date->format('m');
+		}
+	}
 }
