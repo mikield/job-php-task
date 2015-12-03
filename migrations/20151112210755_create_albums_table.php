@@ -1,9 +1,9 @@
 <?php
+
 use Phinx\Migration\AbstractMigration;
 
 class CreateAlbumsTable extends AbstractMigration
 {
-    
     /**
      * Change Method.
      *
@@ -25,13 +25,14 @@ class CreateAlbumsTable extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change() {
+    public function change()
+    {
         $table = $this->table('albums');
         $table->addColumn('title', 'string')
                 ->addColumn('link', 'string')
                 ->addColumn('month', 'integer')
                 ->addColumn('count', 'integer')
-                ->addIndex(array('title'), array('unique' => true))
+                ->addIndex(['title'], ['unique' => true])
                 ->create();
     }
 }

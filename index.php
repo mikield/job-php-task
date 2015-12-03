@@ -12,24 +12,24 @@
 <br>
 <?php
 include 'vendor/autoload.php';
-$db = include "DB.php";
+$db = include 'DB.php';
 
 $avaibleSorts = [
-	'month', 'id', 'count'
+    'month', 'id', 'count',
 ];
 
 $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
-if(!empty($sort)){
-	if(in_array($sort, $avaibleSorts)){
-		$albums = $db->query("SELECT * FROM albums ORDER BY ".$sort." DESC"); #Made DESC cause of logic view
-	}
-}else{
-	$albums = $db->query("SELECT * FROM albums");
+if (!empty($sort)) {
+    if (in_array($sort, $avaibleSorts)) {
+        $albums = $db->query('SELECT * FROM albums ORDER BY '.$sort.' DESC'); #Made DESC cause of logic view
+    }
+} else {
+    $albums = $db->query('SELECT * FROM albums');
 }
 if (!empty($albums)) {
     foreach ($albums as $album) {
-        echo "Galeria #" . $album['id'] . "<br>";
-        echo $album['title'] . "<br>";
-        echo "<a href='" . $album['link'] . "'>Link</a><br><br>";
+        echo 'Galeria #'.$album['id'].'<br>';
+        echo $album['title'].'<br>';
+        echo "<a href='".$album['link']."'>Link</a><br><br>";
     }
 }
